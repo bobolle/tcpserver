@@ -24,14 +24,16 @@ int main() {
   // listen for connections, backlog limits listen queue
   listen(serverSocket, 5);
 
-  // accept a new connection on a socket
-  // socket, address, address_len
-  int clientSocket = accept(serverSocket, nullptr, nullptr);
+  while (1) {
+    // accept a new connection on a socket
+    // socket, address, address_len
+    int clientSocket = accept(serverSocket, nullptr, nullptr);
 
-  // start receiving data from client
-  char buffer[1024] = {0};
-  recv(clientSocket, buffer, sizeof(buffer), 0);
-  std::cout << "Message from client: " << buffer << std::endl;
+    // start receiving data from client
+    char buffer[1024] = {0};
+    recv(clientSocket, buffer, sizeof(buffer), 0);
+    std::cout << "Message from client: " << buffer << std::endl;
+  }
 
   close(serverSocket);
 

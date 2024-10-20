@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 // client
-int main() {
+int main(int argc, char** argv) {
   // AF_INET, specifies ipv4 protocol family
   // SOCK_STREAM, defines TCP type socket
   // create socket
@@ -21,7 +21,8 @@ int main() {
 
   connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
 
-  const char* message = "Hello, server!";
+  const char* message = "test message to server";
+
   send(clientSocket, message, strlen(message), 0);
 
   close(clientSocket);
