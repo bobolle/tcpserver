@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
+// server
 int main() {
   // AF_INET, specifies ipv4 protocol family
   // SOCK_STREAM, defines TCP type socket
@@ -19,10 +20,14 @@ int main() {
   serverAddress.sin_addr.s_addr = INADDR_ANY;
 
   // assign adress to socket
-  bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
+  if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
+    std::cerr << "Bind failed" << std::endl;
+  }
 
   // listen for connections, backlog limits listen queue
-  listen(serverSocket, 5);
+  if (listen(serverSocket, 5) < 0) {
+    std::cerr << "Listen failed" << std::endl;
+  }
 
   while (1) {
     // accept a new connection on a socket
@@ -33,6 +38,10 @@ int main() {
     char buffer[1024] = {0};
     recv(clientSocket, buffer, sizeof(buffer), 0);
     std::cout << "Message from client: " << buffer << std::endl;
+
+    // send back response?
+    const char* message = "402";
+    send(clientSocket, message, strlen(message), 0);
   }
 
   close(serverSocket);

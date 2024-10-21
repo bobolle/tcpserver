@@ -19,11 +19,19 @@ int main(int argc, char** argv) {
   // dont bind socket to certain IP, listen to all
   serverAddress.sin_addr.s_addr = INADDR_ANY;
 
-  connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
+  // connect socket to adress
+  if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
+    std::cerr << "Connection failed" << std::endl;
+  }
 
-  const char* message = "test message to server";
-
+  // send message on a socket
+  const char* message = "test message";
   send(clientSocket, message, strlen(message), 0);
+
+  // get response
+  char buffer[1024] = {0};
+  recv(clientSocket, buffer, sizeof(buffer), 0);
+  std::cout << buffer << std::endl;
 
   close(clientSocket);
 
