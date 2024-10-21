@@ -29,6 +29,7 @@ int main() {
     std::cerr << "Listen failed" << std::endl;
   }
 
+  std::cout << "Listening..." << std::endl;
   while (1) {
     // accept a new connection on a socket
     // socket, address, address_len
