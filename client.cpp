@@ -25,13 +25,21 @@ int main(int argc, char** argv) {
   }
 
   // send message on a socket
-  const char* message = "test message";
-  send(clientSocket, message, strlen(message), 0);
+  char message[1024];
+  char buffer[1024];
+  while (1) {
+    std::cout << "enter message: ";
+    std::cin.getline(message, sizeof(message));
+    if (send(clientSocket, message, strlen(message), 0) < 0) {
+      std::cerr << "Send failed" << std::endl;
+    }
 
-  // get response
-  char buffer[1024] = {0};
-  recv(clientSocket, buffer, sizeof(buffer), 0);
-  std::cout << buffer << std::endl;
+    // get response
+    buffer[1024] = {0};
+    std::cout << "response from server: ";
+    recv(clientSocket, buffer, sizeof(buffer), 0);
+    std::cout << buffer << std::endl;
+  }
 
   close(clientSocket);
 
