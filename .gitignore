@@ -3,3 +3,5 @@ client
 close
 close.cpp
 a.out
+*.o
+build.sh
