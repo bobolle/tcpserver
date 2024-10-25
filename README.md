@@ -12,8 +12,16 @@ make
 ## Usage
 
 ```
+# open in different sessions
 ./server
 ./client
+
+client:
+type any text from client to send to the server
+type exit to quit
+
+server:
+revices and views messages automatically
 ```
 
 ## TODO
