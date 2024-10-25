@@ -6,8 +6,7 @@ The plan is to make this applicable somewhere.
 ## Build
 
 ```
-g++ -o server server.cpp TCPServer.cpp
-g++ -o client client.cpp TCPClient.cpp
+make
 ```
 
 ## Usage
@@ -18,5 +17,6 @@ g++ -o client client.cpp TCPClient.cpp
 ```
 
 ## TODO
+- [x] makefile
 - [ ] handle multiple connections
 - [ ] test if it works in local network
