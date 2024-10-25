@@ -22,7 +22,6 @@ TCPServer::TCPServer(int port) : _port(port) {
 // Deconstructor
 TCPServer::~TCPServer() {}
 
-
 // Server start
 void TCPServer::start() {
   std::cout << "starting server..." << std::endl;
@@ -33,7 +32,7 @@ void TCPServer::start() {
   int clientSocket = accept(this->_serverSocket, nullptr, nullptr);
 
   while (1) {
-    std::cout << "waiting for message..." << std::endl;
+    std::cout << "server: ";
 
     char buffer[128] = {0};
     recv(clientSocket, buffer, sizeof(buffer), 0);

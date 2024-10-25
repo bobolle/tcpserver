@@ -29,8 +29,14 @@ int TCPClient::start() {
   char message[1024];
   char buffer[1024];
   while (1) {
-    std::cout << "enter message: ";
+    std::cout << "client: ";
     std::cin.getline(message, sizeof(message));
+
+    if (strcmp(message, "exit") == 0) {
+      Bobolle::TCPClient::stop();
+      return 0;
+    }
+
     if (send(this->_clientSocket, message, strlen(message), 0) < 0) {
       std::cerr << "Send failed" << std::endl;
     }
