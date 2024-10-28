@@ -9,7 +9,7 @@ class TCPServer {
   public:
     TCPServer(int port);
     ~TCPServer();
-    void start();
+    int start();
     void stop();
 };
 

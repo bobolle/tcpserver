@@ -13,10 +13,6 @@ TCPServer::TCPServer(int port) : _port(port) {
   this->_serverAddress.sin_family = AF_INET;
   this->_serverAddress.sin_port = htons(this->_port);
   this->_serverAddress.sin_addr.s_addr = INADDR_ANY;
-
-  if (bind(this->_serverSocket, (struct sockaddr*) &this->_serverAddress, sizeof(this->_serverAddress)) < 0) {
-    std::cerr << "bind failed" << std::endl;
-  }
 }
 
 // Deconstructor
@@ -25,10 +21,17 @@ TCPServer::~TCPServer() {
 }
 
 // Server start
-void TCPServer::start() {
+int TCPServer::start() {
   std::cout << "starting server..." << std::endl;
+
+  if (bind(this->_serverSocket, (struct sockaddr*) &this->_serverAddress, sizeof(this->_serverAddress)) < 0) {
+    std::cerr << "bind failed" << std::endl;
+    return -1;
+  }
+
   if (listen(this->_serverSocket, 5) < 0) {
     std::cerr << "listen failed" << std::endl;
+    return -1;
   }
 
   int clientSocket = accept(this->_serverSocket, nullptr, nullptr);
