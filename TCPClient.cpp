@@ -16,7 +16,9 @@ TCPClient::TCPClient(int port) : _port(port) {
 }
 
 // Deconstructor
-TCPClient::~TCPClient() {}
+TCPClient::~TCPClient() {
+  stop();
+}
 
 // Client start
 int TCPClient::start() {
@@ -33,7 +35,7 @@ int TCPClient::start() {
     std::cin.getline(message, sizeof(message));
 
     if (strcmp(message, "exit") == 0) {
-      Bobolle::TCPClient::stop();
+      stop();
       return 0;
     }
 

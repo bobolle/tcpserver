@@ -20,7 +20,9 @@ TCPServer::TCPServer(int port) : _port(port) {
 }
 
 // Deconstructor
-TCPServer::~TCPServer() {}
+TCPServer::~TCPServer() {
+  stop();
+}
 
 // Server start
 void TCPServer::start() {
