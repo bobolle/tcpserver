@@ -29,7 +29,6 @@ int TCPClient::start() {
   }
 
   char message[1024];
-  char buffer[1024];
   while (1) {
     std::cout << "client: ";
     std::cin.getline(message, sizeof(message));
@@ -43,7 +42,7 @@ int TCPClient::start() {
       std::cerr << "Send failed" << std::endl;
     }
 
-    buffer[1024] = {0};
+    char buffer[32] = {0};
     std::cout << "response from server: ";
     recv(this->_clientSocket, buffer, sizeof(buffer), 0);
     std::cout << buffer << std::endl;
