@@ -2,8 +2,11 @@
 #include <sys/socket.h>
 #include <iostream>
 #include <cstring>
+#include <errno.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <signal.h>
+
 
 namespace Bobolle {
 
@@ -34,23 +37,34 @@ int TCPServer::start() {
     return -1;
   }
 
-  int clientSocket = accept(this->_serverSocket, nullptr, nullptr);
+  struct timeval timeout;
+  timeout.tv_sec = 5;
+  timeout.tv_usec = 0;
+
 
   while (1) {
-    std::cout << "server: ";
+      this->_clientSocket = accept(this->_serverSocket, nullptr, nullptr);
+      setsockopt(this->_clientSocket, SOL_SOCKET, SO_RCVTIMEO, (const char *)&timeout, sizeof(timeout));
 
-    char buffer[128] = {0};
-    recv(clientSocket, buffer, sizeof(buffer), 0);
-    std::cout << "message from client: " << buffer << std::endl;
-    
-    const char* message = "402";
-    send(clientSocket, message, strlen(message), 0);
+      while (1) {
+        char buffer[1024] = {0};
+        recv(this->_clientSocket, buffer, sizeof(buffer), 0);
+        std::cout << "server: " << buffer << std::endl;
+
+        if (errno == EAGAIN) {
+            close(this->_clientSocket);
+            break;
+        }
+      }
   }
+
+  this->stop();
 }
 
 // Server Close
 void TCPServer::stop() {
   close(this->_serverSocket);
+  close(this->_clientSocket);
 }
 
 }
